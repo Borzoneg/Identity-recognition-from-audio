@@ -7,15 +7,18 @@ import torch
 from torch.utils.data import Dataset, DataLoader
 
 class AudioDataset(Dataset):
-    def __init__(self, root_folder="./audio_dataset", read_from_file=False):        
+    def __init__(self, root_folder="./audio_dataset", max_length=80249):        
         self.class_map = {"both": 0, "esben" : 1, "peter": 2}
         self.data = []
-        for subdir, dirs, files in os.walk('./audio_dataset'):
+        for subdir, dirs, files in os.walk(root_folder):
             for file_name in files:
                 file_path = os.path.join(subdir, file_name)
-                sample_rate, data = wavfile.read(file_path)
+                sample_rate, wav = wavfile.read(file_path)
+                if wav.shape[0] > max_length:
+                    print("Found wav with more length than specified max one, new max is:", wav.shape[0])
+                wav = np.pad(wav, (0, max_length-wav.shape[0]))
                 label = file_path.split('/')[2][2:]
-                self.data.append([data, label])
+                self.data.append([wav, label])
         self.sample_rate = sample_rate
 
     def __len__(self):
@@ -29,6 +32,6 @@ class AudioDataset(Dataset):
         return wav_tensor, class_id
 
 dataset = AudioDataset()
-
-for wav, label in dataset:
-    print(wav, label)
+data_loader = DataLoader(dataset, batch_size=4, shuffle=True)
+for wav, label in data_loader:
+    print(wav.shape, label.shape)
