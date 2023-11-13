@@ -11,14 +11,16 @@ original_dataset = "../data/audio_dataset"
 original_dataset_lenght = 80249
 
 class AudioDataset(Dataset):
-    def __init__(self, root_folder=original_dataset, max_length=original_dataset_lenght):
+    def __init__(self, drop_both=False):
+        root_folder = original_dataset
+        max_length = original_dataset_lenght
         self.class_map = {"both": 0, "esben" : 1, "peter": 2}
         self.data = []
         self.labels = []
         for subdir, dirs, files in os.walk(root_folder):
             for file_name in files:
-                #if "both" in subdir:
-                #    continue
+                if "both" in subdir and drop_both:
+                   continue
                 file_path = os.path.join(subdir, file_name)
                 _, wav = wavfile.read(file_path)
                 if wav.shape[0] > max_length:
@@ -30,6 +32,7 @@ class AudioDataset(Dataset):
                 self.data.append(wav)
         print("Max length of wav files:", max_length)
         #self.sample_rate = sample_rate
+    
 
     def __len__(self):
         return len(self.data)
