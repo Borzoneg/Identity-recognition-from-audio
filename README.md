@@ -3,15 +3,15 @@ Project for the course Deep-neural-network
 
 # Frede
 
-- LSTM fix, using embedding wither with 60k long LUT or something else we believe in you, you can do it 
+- LSTM using both
 
 # Gu 
 
-- KNN fix, now is working on the whole database for the whole time
+- LSTM on-line classifier (see if it's doable)
 
 # Gian
 
 - MLP 
-- Data manipulation (Converting wav to Decibel)
+- Implement more features
 
 
