@@ -15,3 +15,5 @@ Project for the course Deep-neural-network
 - Implement more features
 
 
+speaker diarisation
+
