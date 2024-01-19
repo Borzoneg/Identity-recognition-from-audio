@@ -11,8 +11,6 @@ Project for the course Deep-neural-network
 
 # Gian
 
-- MLP 
-- Implement more features
 
 
 speaker diarisation
